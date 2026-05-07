@@ -1,0 +1,25 @@
+name: security scan on pull req
+
+on:
+pull_request:
+branches: [main]
+paths:
+ - 'src/**'
+
+jobs:
+security-scan:
+runs-on: ubunut-latest
+steps:
+- name: Checkout code
+  uses: actions/checkout@v4
+
+- name: setup Node.js
+  used: actions/setup-node@v4
+  with:
+        node-version: '18'
+
+- name: Install dependencies
+  run: npm ci
+
+- name: Run npm audit
+  run: npm --audit-level=moderate
